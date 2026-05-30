@@ -7,21 +7,28 @@
     <link rel="icon" type="image/x-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4da.png">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background-color: #ffffff;
+        }
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: #202124;
+            z-index: 10;
+            background-color: #ffffff;
+            transition: opacity 0.2s ease;
         }
         .container { text-align: center; padding: 20px; width: 100%; max-width: 360px; }
-        h2 { font-size: 20px; font-weight: 400; margin-bottom: 12px; }
+        h2 { font-size: 20px; font-weight: 400; margin-bottom: 12px; color: #202124; }
         p { font-size: 13px; color: #70757a; margin-bottom: 24px; }
         .progress-bar-container {
-            width: 100%; height: 4px; background-color: #e8eaed; border-radius: 2px; overflow: hidden; margin-bottom: 32px; position: relative;
+            width: 100%; height: 4px; background-color: #e8eaed; border-radius: 2px; overflow: hidden; position: relative;
         }
         .progress-bar-value {
             width: 100%; height: 100%; background-color: #1a73e8; position: absolute;
@@ -32,22 +39,33 @@
             50% { transform: translateX(0%) scaleX(0.4); }
             100% { transform: translateX(100%) scaleX(1); }
         }
-        .btn-fallback { font-size: 13px; color: #1a73e8; text-decoration: none; font-weight: 500; }
-        .btn-fallback:hover { text-decoration: underline; }
+        
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Abriendo Panel de Control</h2>
-        <p>Cargando credenciales de <strong>pruebas</strong>...</p>
-        <div class="progress-bar-container">
-            <div class="progress-bar-value"></div>
+    <div id="loading" class="loading-screen">
+        <div class="container">
+            <h2>Abriendo Panel de Control</h2>
+            <p>Cargando credenciales de <strong>pruebas</strong>...</p>
+            <div class="progress-bar-container">
+                <div class="progress-bar-value"></div>
+            </div>
         </div>
-        <a id="enlaceRescate" href="#" target="_self" class="btn-fallback">Ir al panel manualmente</a>
     </div>
 
+    <iframe id="marcoAdmin" src="" onload="ocultarCarga()">
+        <iframe>contenido redirigido</iframe>
+    </iframe>
+
     <script>
+        
         const urlParams = new URLSearchParams(window.location.search);
         const nuevosParams = new URLSearchParams();
         nuevosParams.set('admin', 'admin');
@@ -59,10 +77,18 @@
         
         const urlFinal = "https:\/\/script.google.com\/a\/murciaeduca.es\/macros\/s\/AKfycbxPQI-GurLvjqMYPTeHgddkDO6MFwqJR_m1CEr7TPZU\/dev?" + nuevosParams.toString();
         
-        document.getElementById('enlaceRescate').href = urlFinal;
         
+        document.getElementById('marcoAdmin').src = urlFinal;
+
         
-        window.location.href = urlFinal;
+        function ocultarCarga() {
+            
+            if (document.getElementById('marcoAdmin').getAttribute('src') === "") return;
+            
+            const pantallaCarga = document.getElementById('loading');
+            pantallaCarga.style.opacity = '0';
+            setTimeout(() => pantallaCarga.style.display = 'none', 200);
+        }
     </script>
 </body>
 </html>
