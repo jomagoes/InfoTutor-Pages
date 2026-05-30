@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Centro de pruebas</title>
+    <link rel="icon" type="image/x-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4da.png">
+</head>
+<body>
+    <div style="text-align:center; font-family:Arial; margin-top:20%;">
+        <h2>Abriendo Panel de Control...</h2>
+        <p>Por favor, espera un momento.</p>
+    </div>
+    <script>
+        // Capturamos cualquier variable extra enviada por la URL de tu dominio (ej: ?variable=1)
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Creamos los parámetros limpios que procesará tu doGet(e)
+        const nuevosParams = new URLSearchParams();
+        nuevosParams.set('admin', 'admin');
+        nuevosParams.set('centro', 'pruebas');
+        
+        // Clonamos el resto de variables que traiga la URL original
+        for (const [key, value] of urlParams.entries()) {
+            nuevosParams.set(key, value);
+        }
+        
+        // Redirigimos de vuelta a este mismo Google Apps Script pasando todo formateado
+        window.location.href = "https://script.google.com/a/murciaeduca.es/macros/s/AKfycbxPQI-GurLvjqMYPTeHgddkDO6MFwqJR_m1CEr7TPZU/dev?" + nuevosParams.toString();
+    </script>
+</body>
+</html>
