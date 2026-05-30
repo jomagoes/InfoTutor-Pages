@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Centro de Enrique</title>
+    <link rel="icon" type="image/x-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4da.png">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #202124;
+        }
+        .container { text-align: center; padding: 20px; width: 100%; max-width: 360px; }
+        h2 { font-size: 20px; font-weight: 400; margin-bottom: 12px; }
+        p { font-size: 13px; color: #70757a; margin-bottom: 24px; }
+        .progress-bar-container {
+            width: 100%; height: 4px; background-color: #e8eaed; border-radius: 2px; overflow: hidden; margin-bottom: 32px; position: relative;
+        }
+        .progress-bar-value {
+            width: 100%; height: 100%; background-color: #1a73e8; position: absolute;
+            animation: indeterminate 1.5s infinite linear; transform-origin: 0% 50%;
+        }
+        @keyframes indeterminate {
+            0% { transform: translateX(-100%) scaleX(1); }
+            50% { transform: translateX(0%) scaleX(0.4); }
+            100% { transform: translateX(100%) scaleX(1); }
+        }
+        .btn-fallback { font-size: 13px; color: #1a73e8; text-decoration: none; font-weight: 500; }
+        .btn-fallback:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Abriendo Panel de Control</h2>
+        <p>Validando credenciales de <strong>Enrique</strong>...</p>
+        <div class="progress-bar-container">
+            <div class="progress-bar-value"></div>
+        </div>
+        <a id="enlaceRescate" href="#" target="_top" class="btn-fallback">Acceder directamente</a>
+    </div>
+
+    <script>
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const nuevosParams = new URLSearchParams();
+        nuevosParams.set('admin', 'admin');
+        
+        for (const [key, value] of urlParams.entries()) {
+            nuevosParams.set(key, value);
+        }
+        
+        const urlFinal = "https:\/\/script.google.com\/a\/murciaeduca.es\/macros\/s\/AKfycbwEDUTRDflfyoFADEmZSdOI2-7vXeiAoJoE0Pw7j2_LK8cmmeWQAWypgw1mYsK4fpp0xw\/exec?" + nuevosParams.toString();
+        
+        document.getElementById('enlaceRescate').href = urlFinal;
+        
+        
+        window.top.location.href = urlFinal;
+    </script>
+</body>
+</html>
