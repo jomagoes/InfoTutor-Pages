@@ -52,13 +52,12 @@
         const urlParams = new URLSearchParams(window.location.search);
         const nuevosParams = new URLSearchParams();
         nuevosParams.set('admin', 'admin');
-        nuevosParams.set('centro', 'pruebas');
         
         for (const [key, value] of urlParams.entries()) {
             nuevosParams.set(key, value);
         }
         
-        const urlFinal = "https:\/\/script.google.com\/a\/murciaeduca.es\/macros\/s\/AKfycbxPQI-GurLvjqMYPTeHgddkDO6MFwqJR_m1CEr7TPZU\/dev?" + nuevosParams.toString();
+        const urlFinal = "https:\/\/script.google.com\/a\/murciaeduca.es\/macros\/s\/AKfycbxqaAhBrLMTSiUI4aw-WRHp1g9gFEq5VPnOq10mLnuceAY6UKVISw65CGpC_hkkdA-wlA\/exec?" + nuevosParams.toString();
         
         document.getElementById('enlaceRescate').href = urlFinal;
         
