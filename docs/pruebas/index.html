@@ -7,49 +7,69 @@
     <link rel="icon" type="image/x-icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4da.png">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
+        html, body {
+            height: 100%;
+            overflow: hidden;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
             background-color: #f8f9fa;
+        }
+         
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            color: #202124;
+            z-index: 10;
+            background-color: #f8f9fa;
+            transition: opacity 0.3s ease;
         }
         .container { text-align: center; padding: 20px; max-width: 400px; }
         .logo-placeholder { width: 64px; height: 64px; margin-bottom: 24px; border-radius: 12px; }
-        h2 { font-size: 22px; font-weight: 500; margin-bottom: 8px; }
+        h2 { font-size: 22px; font-weight: 500; margin-bottom: 8px; color: #202124; }
         p { font-size: 14px; color: #5f6368; margin-bottom: 32px; }
         .spinner {
             width: 40px; height: 40px;
-            border: 4px solid #f3f3f3;
+            border: 4px solid #e8eaed;
             border-top: 4px solid #1a73e8;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 40px auto;
+            margin: 0 auto;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .btn-fallback {
-            display: inline-block; padding: 10px 24px; font-size: 14px; font-weight: 500;
-            color: #1a73e8; text-decoration: none; border: 1px solid #dadce0; border-radius: 4px;
+        
+         
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
         }
-        .btn-fallback:hover { background-color: #f8f9fa; border-color: #1a73e8; }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <img class="logo-placeholder" src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4da.png" alt="Logo">
-        <h2>Conectando con el centro...</h2>
-        <p>Accediendo a la plataforma de <strong>Centro de pruebas</strong>.</p>
-        <div class="spinner"></div>
-        <a href="https://script.google.com/a/murciaeduca.es/macros/s/AKfycbxqaAhBrLMTSiUI4aw-WRHp1g9gFEq5VPnOq10mLnuceAY6UKVISw65CGpC_hkkdA-wlA/exec" target="_self" class="btn-fallback">¿No se abre? Haz clic aquí</a>
+    <div id="loading" class="loading-screen">
+        <div class="container">
+            <img class="logo-placeholder" src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f4da.png" alt="Logo">
+            <h2>Conectando con el centro...</h2>
+            <p>Cargando la plataforma de <strong>Centro de pruebas</strong>.</p>
+            <div class="spinner"></div>
+        </div>
     </div>
+
+    <iframe src="https://script.google.com/a/murciaeduca.es/macros/s/AKfycbxqaAhBrLMTSiUI4aw-WRHp1g9gFEq5VPnOq10mLnuceAY6UKVISw65CGpC_hkkdA-wlA/exec" onload="ocultarCarga()">
+        <iframe>contenido redirigido</iframe>
+    </iframe>
 
     <script>
         
-        window.location.href = "https:\/\/script.google.com\/a\/murciaeduca.es\/macros\/s\/AKfycbxqaAhBrLMTSiUI4aw-WRHp1g9gFEq5VPnOq10mLnuceAY6UKVISw65CGpC_hkkdA-wlA\/exec";
+        function ocultarCarga() {
+            const pantallaCarga = document.getElementById('loading');
+            pantallaCarga.style.opacity = '0';
+            setTimeout(() => pantallaCarga.style.display = 'none', 300);
+        }
     </script>
 </body>
 </html>
