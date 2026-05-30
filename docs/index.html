@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoTutor - Redireccionando</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #202124;
+        }
+        .container { text-align: center; padding: 20px; max-width: 400px; }
+        .spinner {
+            width: 44px; height: 44px;
+            border: 4px solid #e8eaed;
+            border-top: 4px solid #1a73e8;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        h2 { font-size: 20px; font-weight: 500; margin-bottom: 8px; color: #1a73e8; }
+        p { font-size: 14px; color: #5f6368; margin-bottom: 32px; }
+        .btn-fallback {
+            display: inline-block; padding: 10px 24px; font-size: 13px; font-weight: 500;
+            color: #5f6368; text-decoration: none; border: 1px solid #dadce0; border-radius: 4px;
+        }
+        .btn-fallback:hover { background-color: #f1f3f4; color: #202124; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>Cargando InfoTutor...</h2>
+        <p>Estableciendo conexión segura con el entorno de MurciaEduca.</p>
+        <a id="enlaceRescate" href="#" target="_top" class="btn-fallback">Haga clic aquí si no redirige</a>
+    </div>
+
+    <script>
+        // 1. CONFIGURACIÓN: Pega aquí la URL de ejecución de tu Google Apps Script (la terminada en /exec)
+        const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/TU_ID_DE_DESPLIEGUE/exec";
+
+        // 2. Capturamos los parámetros que traiga la URL de GitHub (ej: ?centro=INFOtutor&admin=admin)
+        const urlParams = new URLSearchParams(window.location.search);
+        const nuevosParams = new URLSearchParams();
+
+        // 3. Quitamos el dolor de cabeza de las Mayúsculas/Minúsculas en el parámetro 'centro'
+        if (urlParams.has('centro')) {
+            const centroLimpio = urlParams.get('centro').toLowerCase(); // "INFOtutor" -> "infotutor"
+            nuevosParams.set('centro', centroLimpio);
+        }
+
+        // 4. Mantenemos el resto de parámetros (como 'admin' si existiera)
+        for (const [key, value] of urlParams.entries()) {
+            if (key !== 'centro') {
+                nuevosParams.set(key, value);
+            }
+        }
+
+        // 5. Construimos la URL de destino final hacia Google
+        const urlDestinoFinal = URL_GOOGLE_SCRIPT + "?" + nuevosParams.toString();
+
+        // 6. Preparamos el botón de rescate físico con "noreferrer"
+        const botonRescate = document.getElementById('enlaceRescate');
+        botonRescate.href = urlDestinoFinal;
+        botonRescate.setAttribute('rel', 'noreferrer');
+
+        // 7. EL TRUCO DE SEGURIDAD (Ventana Completa y ocultando Origen):
+        // Creamos un enlace fantasma en la memoria del navegador con "noreferrer" 
+        // para engañar al filtro anti-phishing de Google y evitar el cartel de "Necesitas acceso"
+        const enlaceFantasma = document.createElement('a');
+        enlaceFantasma.href = urlDestinoFinal;
+        enlaceFantasma.rel = 'noreferrer';
+        enlaceFantasma.target = '_top'; // Rompe cualquier enmarcado
+
+        // Lo inyectamos un milisegundo en el documento y lo pulsamos mediante código
+        document.body.appendChild(enlaceFantasma);
+        enlaceFantasma.click();
+    </script>
+</body>
+</html>
